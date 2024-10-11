@@ -19,7 +19,7 @@ RUN mkdir -p /home/$USER/.julia_custom_depot && chown -R $USER:$USER /home/$USER
 USER $USER
 
 # Create a new Julia environment in the working directory
-RUN julia -e 'using Pkg; Pkg.activate("."); Pkg.add("Pluto")'
+RUN julia -e 'import Pkg; Pkg.add("Pluto")'
 
 # Set permissions for the custom Julia depot directory
 RUN chmod -R 755 /home/$USER/.julia_custom_depot
