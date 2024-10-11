@@ -9,7 +9,8 @@ ENV HOME=/home/$USER
 ENV JULIA_DEPOT_PATH=/home/$USER/.julia_custom_depot
 
 # Create a directory for Julia packages and logs
-ENV JULIA_DEPOT_PATH=$HOME/.julia_custom_depot
+ENV JULIA_DEPOT_PATH=$HOME/$USER/.julia_custom_depot
+
 
 # Create a non-root user
 RUN useradd -ms /bin/bash $USER
