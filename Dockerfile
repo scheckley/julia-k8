@@ -20,6 +20,11 @@ RUN useradd -ms /bin/bash $USER
 WORKDIR /home/$USER
 RUN mkdir -p /home/$USER/.julia_custom_depot && chown -R $USER:$USER /home/$USER
 
+# Change ownership of the workspace directory to ensure write access
+RUN chown -R 1000:1000 $HOME
+
+RUN chmod -R u+w ~/.julia_custom_depot
+
 # Switch to non-root user
 USER $USER
 
@@ -27,7 +32,7 @@ USER $USER
 RUN julia -e 'import Pkg; Pkg.add("Pluto")'
 
 # Set permissions for the custom Julia depot directory
-RUN chmod -R 755 /home/$USER/.julia_custom_depot
+RUN chmod -R 777 /home/$USER/.julia_custom_depot
 
 # Expose port 8888 for Pluto
 EXPOSE 8888
