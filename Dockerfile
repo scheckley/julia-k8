@@ -8,8 +8,6 @@ ENV HOME=/home/$USER
 # Set the JULIA_DEPOT_PATH to a directory where the user has write permissions
 ENV JULIA_DEPOT_PATH=/home/$USER/.julia_custom_depot
 
-ENV["JULIA_PKG_DISABLE_USAGE_LOGGING"] = "true"
-
 # Create a directory for Julia packages and logs
 ENV JULIA_DEPOT_PATH=$HOME/.julia_custom_depot
 
