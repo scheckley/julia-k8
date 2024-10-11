@@ -22,9 +22,9 @@ RUN mkdir -p /home/$USER/.julia_custom_depot && chown -R $USER:$USER /home/$USER
 # Change ownership of the workspace directory to ensure write access
 RUN chown -R 1000:1000 $HOME
 
-RUN chmod -R 755 ~/.julia_custom_depot
-RUN chmod -R 755 ~/.julia/
-RUN chmod -R 755 ~/.julia_custom_depot/logs/
+RUN chmod -R 755 /home/$USER/.julia_custom_depot
+RUN chmod -R 755 /home/$USER/.julia/
+RUN chmod -R 755 /home/$USER/.julia_custom_depot/logs/
 
 # Switch to non-root user
 USER $USER
