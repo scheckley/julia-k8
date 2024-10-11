@@ -4,7 +4,7 @@ Experimental Dockerfile to build a Julia Pluto environment on an Openshift clust
 
 ToDo:
 
-[ ] Fix permissions error
+- [ ] Fix permissions error
 
 ```
 ERROR: InitError: IOError: open("/home/juliauser/.julia_custom_depot/logs/manifest_usage.toml.pid", 194, 292): permission denied (EACCES)
