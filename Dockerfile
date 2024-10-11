@@ -11,15 +11,14 @@ RUN useradd -ms /bin/bash $USER
 # Change ownership of the working directory
 WORKDIR /home/$USER
 
-# Change to the non-root user
+# Switch to non-root user
 USER $USER
 
-# Set the shell to bash
-SHELL ["/bin/bash", "-c"]
+# Install Pluto.jl
+RUN julia -e 'using Pkg; Pkg.add("Pluto")'
 
-# Optional: You can add any Julia packages or custom scripts here
-# For example, to add Julia packages:
-# RUN julia -e 'using Pkg; Pkg.add(["Example"])'
+# Expose port 888 for Pluto
+EXPOSE 888
 
-# Set the entry point to the Julia REPL (optional)
-ENTRYPOINT ["julia"]
+# Set the entry point to run Pluto on port 888
+ENTRYPOINT ["julia", "-e", "using Pluto; Pluto.run(\"0.0.0.0\", 888)"]
