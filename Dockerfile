@@ -5,8 +5,8 @@ FROM julia:latest
 ENV USER=juliauser
 ENV HOME=/home/$USER
 
-# Set a custom depot path in a directory where you have write access
-ENV["JULIA_DEPOT_PATH"] = "/path/to/a/writable/directory/.julia_custom_depot"
+# Set the JULIA_DEPOT_PATH to a directory where the user has write permissions
+ENV JULIA_DEPOT_PATH=/home/$USER/.julia_custom_depot
 
 ENV["JULIA_PKG_DISABLE_USAGE_LOGGING"] = "true"
 
