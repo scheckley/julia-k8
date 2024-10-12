@@ -22,6 +22,9 @@ RUN mkdir -p $JULIA_DEPOT_PATH/logs \
     chown -R 1001:0 $HOME && \
     chmod -R g+rwX $HOME
 
+# Install Pluto in the project environment
+RUN julia --project=$PLUTO_PROJECT -e 'using Pkg; Pkg.add("Pluto")'
+
 # Create a startup script with additional configuration
 RUN echo '#!/bin/bash\n\
 julia --project=$PLUTO_PROJECT -e "\
