@@ -6,22 +6,22 @@ ENV USER=juliauser
 ENV HOME=/home/$USER
 
 # Set the JULIA_DEPOT_PATH to a directory where the user has write permissions
-ENV JULIA_DEPOT_PATH=$HOME/$USER/.julia_custom_depot
+ENV JULIA_DEPOT_PATH=$HOME/.julia_custom_depot
 
 # Create a non-root user
 RUN useradd -ms /bin/bash $USER
 
 # Change ownership of the working directory
-WORKDIR /home/$USER
-RUN mkdir -p $HOME/$USER/.julia_custom_depot && chown -R $USER:$USER $HOME/$USER
-RUN mkdir -p $HOME/$USER/.julia && chown -R $USER:$USER $HOME/$USER
+WORKDIR ${HOME}/$USER
+RUN mkdir -p $HOME/.julia_custom_depot && chown -R $USER:$USER $HOME/.julia_custom_depot
+RUN mkdir -p $HOME/.julia && chown -R $USER:$USER $HOME/.julia
 
 # Change ownership of the workspace directory to ensure write access
 RUN chown -R 1000:1000 $HOME
 
-RUN chmod -R 755 $HOME/$USER/.julia_custom_depot
-RUN chmod -R 755 $HOME/$USER/.julia/
-RUN chmod -R 755 $HOME/$USER/.julia_custom_depot/logs/
+RUN chmod -R 755 $HOME/.julia_custom_depot
+RUN chmod -R 755 $HOME/.julia/
+RUN chmod -R 755 $HOME/.julia_custom_depot/logs/
 
 # Switch to non-root user
 USER $USER
