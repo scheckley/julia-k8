@@ -15,7 +15,7 @@ RUN useradd -ms /bin/bash $USER
 WORKDIR ${HOME}/$USER
 RUN mkdir -p $HOME/.julia_custom_depot && chown -R $USER:$USER $HOME/.julia_custom_depot
 RUN mkdir -p $HOME/.julia && chown -R $USER:$USER $HOME/.julia
-RUN mkdir -p $HOME/.julia_custom_depot/logs && chown -R $USER:USER $HOME/.julia_custom_depot/logs
+RUN mkdir -p $HOME/.julia_custom_depot/logs
 
 # Change ownership of the workspace directory to ensure write access
 RUN chown -R 1000:1000 $HOME
