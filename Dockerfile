@@ -21,4 +21,4 @@ RUN julia -e 'using Pkg; Pkg.add("Pluto")'
 EXPOSE 8888
 
 # Set the entry point to run Pluto on port 8888
-ENTRYPOINT ["julia", "-e", "using Pluto; Pluto.run(host=\"0.0.0.0\", port=8888, notebook_path=\"~/notebooks\")"]
+ENTRYPOINT ["julia", "-e", "using Pluto; Pluto.run(host=\"0.0.0.0\", port=8888, notebook_path_suggestion=\"~/notebooks\")"]
