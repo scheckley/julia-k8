@@ -28,7 +28,7 @@ RUN chmod -R 777 $HOME/.julia_custom_depot/logs/
 USER $USER
 
 # Create a new Julia environment in the working directory
-RUN julia -e 'import Pkg; Pkg.add("Pluto")'
+RUN julia -e 'using Pkg; Pkg.add("Pluto")'
 
 EXPOSE 8888
 
