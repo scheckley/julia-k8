@@ -19,20 +19,12 @@ RUN mkdir -p $JULIA_DEPOT_PATH/logs \
              $JULIA_DEPOT_PATH/scratchspaces \
              $PLUTO_PROJECT \
              $PLUTO_NOTEBOOK_DIR && \
-    chmod -R 777 $HOME && \
-    chown -R pluto:pluto $HOME && \
+    chown -R 1001:0 $HOME && \
     chmod -R g+rwX $HOME
-
-# Install sudo for temporary privilege escalation
-RUN apt-get update && apt-get install -y sudo
-
-# Add pluto user to sudo group and grant sudo privileges
-RUN usermod -aG sudo pluto && \
-    echo "pluto ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/pluto
 
 # Create a startup script with additional configuration
 RUN echo '#!/bin/bash\n\
-sudo -E julia --project=$PLUTO_PROJECT -e "\
+julia --project=$PLUTO_PROJECT -e "\
 using Pluto;\
 Pluto.run(\
     host=\"0.0.0.0\",\
@@ -49,8 +41,8 @@ Pluto.run(\
 
 EXPOSE 8888
 
-# Switch to pluto user
-USER pluto
+# Switch to non-root user
+USER 1001
 
 # Set the entry point to run the startup script
 ENTRYPOINT ["/tmp/pluto/start_pluto.sh"]
