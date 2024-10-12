@@ -6,18 +6,14 @@ ENV USER=juliauser
 ENV HOME=/home/$USER
 
 # Set the JULIA_DEPOT_PATH to a directory where the user has write permissions
-ENV JULIA_DEPOT_PATH=/home/$USER/.julia_custom_depot
-
-# Create a directory for Julia packages and logs
 ENV JULIA_DEPOT_PATH=$HOME/$USER/.julia_custom_depot
-
 
 # Create a non-root user
 RUN useradd -ms /bin/bash $USER
 
 # Change ownership of the working directory
 WORKDIR /home/$USER
-RUN mkdir -p $HOME/$USER/.julia_custom_depot && chown -R $USER:$USER /home/$USER
+RUN mkdir -p $HOME/$USER/.julia_custom_depot && chown -R $USER:$USER $HOME/$USER
 
 # Change ownership of the workspace directory to ensure write access
 RUN chown -R 1000:1000 $HOME
