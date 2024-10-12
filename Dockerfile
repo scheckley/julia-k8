@@ -9,7 +9,7 @@ ENV JULIA_DEPOT_PATH=$HOME/.julia_custom_depot
 USER root
 
 # Create necessary directories and set permissions
-RUN mkdir -p $HOME/.julia_custom_depot $HOME/.julia $HOME/.julia_custom_depot/logs $HOME/.julia_custom_depot/scratchspaces && \
+RUN mkdir -p $HOME/.julia_custom_depot $HOME/.julia $HOME/.julia_custom_depot/logs $HOME/.julia_custom_depot/scratchspaces $HOME/notebooks && \
     chmod -R 777 $HOME
 
 # Switch back to non-root user
@@ -21,4 +21,4 @@ RUN julia -e 'using Pkg; Pkg.add("Pluto")'
 EXPOSE 8888
 
 # Set the entry point to run Pluto on port 8888
-ENTRYPOINT ["julia", "-e", "using Pluto; Pluto.run(host=\"0.0.0.0\", port=8888)"]
+ENTRYPOINT ["julia", "-e", "using Pluto; Pluto.run(host=\"0.0.0.0\", port=8888, notebook_path=\"$HOME/notebooks\")"]
