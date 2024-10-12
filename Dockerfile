@@ -2,14 +2,14 @@
 FROM plutojl/pluto:latest
 
 # Set environment variables to handle rootless container
-ENV USER=pluto
-ENV HOME=/home/$USER
+#ENV USER=pluto
+#ENV HOME=/home/$USER
 
 # Set the JULIA_DEPOT_PATH to a directory where the user has write permissions
 ENV JULIA_DEPOT_PATH=$HOME/.julia_custom_depot
 
 # Create a non-root user
-RUN useradd -ms /bin/bash $USER
+#:RUN useradd -ms /bin/bash $USER
 
 # Change ownership of the working directory
 WORKDIR ${HOME}/$USER
