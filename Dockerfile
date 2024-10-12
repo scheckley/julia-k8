@@ -20,14 +20,15 @@ RUN mkdir -p $JULIA_DEPOT_PATH/logs \
              $PLUTO_PROJECT \
              $PLUTO_NOTEBOOK_DIR && \
     chmod -R 777 $HOME && \
-    chown -R root:root $HOME && \
+    chown -R pluto:pluto $HOME && \
     chmod -R g+rwX $HOME
 
 # Install sudo for temporary privilege escalation
 RUN apt-get update && apt-get install -y sudo
 
-# Add pluto user to sudo group
-RUN useradd -m pluto && echo "pluto ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/pluto
+# Add pluto user to sudo group and grant sudo privileges
+RUN usermod -aG sudo pluto && \
+    echo "pluto ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/pluto
 
 # Create a startup script with additional configuration
 RUN echo '#!/bin/bash\n\
