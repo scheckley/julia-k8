@@ -33,8 +33,8 @@ USER $USER
 RUN julia -e 'import Pkg; Pkg.add("Pluto")'
 
 # Set permissions for the custom Julia depot directory
-RUN chmod -R 755 /home/$USER/.julia_custom_depot
-RUN chmod -R 755 /home/$USER/.julia_custom_depot/logs/
+RUN chmod -R 755 $HOME/$USER/.julia_custom_depot
+RUN chmod -R 755 $HOME/$USER/.julia_custom_depot/logs/
 
 # Expose port 8888 for Pluto
 EXPOSE 8888
