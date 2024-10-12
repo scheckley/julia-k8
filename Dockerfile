@@ -2,18 +2,17 @@
 FROM plutojl/pluto:latest
 
 # Set environment variables
-ENV HOME=/home/pluto
+ENV HOME=/tmp/pluto
 ENV JULIA_DEPOT_PATH=$HOME/.julia_custom_depot
 
 # Switch to root to make directory changes
 USER root
 
 # Create necessary directories and set permissions
-RUN mkdir -p $HOME/.julia_custom_depot $HOME/.julia $HOME/.julia_custom_depot/logs && \
-    chown -R 1000:1000 $HOME && \
-    chmod -R 777 $HOME/.julia_custom_depot $HOME/.julia
+RUN mkdir -p $HOME/.julia_custom_depot $HOME/.julia $HOME/.julia_custom_depot/logs $HOME/.julia_custom_depot/scratchspaces && \
+    chmod -R 777 $HOME
 
-# Switch back to non-root user (assuming UID 1000 is the non-root user in the base image)
+# Switch back to non-root user
 USER 1000
 
 # Create a new Julia environment in the working directory
