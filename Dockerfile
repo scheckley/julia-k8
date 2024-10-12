@@ -20,10 +20,11 @@ RUN mkdir -p $JULIA_DEPOT_PATH/logs \
              $PLUTO_PROJECT \
              $PLUTO_NOTEBOOK_DIR && \
     chown -R 1001:0 $HOME && \
-    chmod -R g+rwX $HOME
+    chmod -R 777 $HOME && \
+    chmod g+s $HOME
 
-# Install Pluto in the project environment
-RUN julia --project=$PLUTO_PROJECT -e 'using Pkg; Pkg.add("Pluto")'
+# Pre-compile Pluto to create necessary directories
+RUN julia --project=$PLUTO_PROJECT -e 'using Pkg; Pkg.add("Pluto"); using Pluto'
 
 # Create a startup script with additional configuration
 RUN echo '#!/bin/bash\n\
