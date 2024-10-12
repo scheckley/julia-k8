@@ -20,7 +20,8 @@ RUN mkdir -p $JULIA_DEPOT_PATH/logs \
              $PLUTO_PROJECT \
              $PLUTO_NOTEBOOK_DIR && \
     chmod -R 777 $HOME && \
-    chown -R 1000:1000 $HOME
+    chown -R 1000:0 $HOME && \
+    chmid -R g+rwX $HOME
 
 # Install debugging tools
 RUN apt-get update && apt-get install -y strace
