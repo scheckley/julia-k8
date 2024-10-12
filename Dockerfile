@@ -20,24 +20,36 @@ RUN mkdir -p $JULIA_DEPOT_PATH/logs \
              $PLUTO_PROJECT \
              $PLUTO_NOTEBOOK_DIR && \
     chmod -R 777 $HOME && \
-    chown -R 1000:0 $HOME && \
+    chown -R root:root $HOME && \
     chmod -R g+rwX $HOME
 
-# Install debugging tools
-RUN apt-get update && apt-get install -y strace
+# Install sudo for temporary privilege escalation
+RUN apt-get update && apt-get install -y sudo
 
-# Switch back to non-root user
-USER 1000
+# Add pluto user to sudo group
+RUN useradd -m pluto && echo "pluto ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/pluto
 
-# Create a new Julia environment in the working directory
-RUN julia -e 'using Pkg; Pkg.add("Pluto")'
-
-# Create a startup script
+# Create a startup script with additional configuration
 RUN echo '#!/bin/bash\n\
-julia -e "using Pluto; Pluto.run(host=\"0.0.0.0\", port=8888)"' > /tmp/pluto/start_pluto.sh && \
+sudo -E julia --project=$PLUTO_PROJECT -e "\
+using Pluto;\
+Pluto.run(\
+    host=\"0.0.0.0\",\
+    port=8888,\
+    launch_browser=false,\
+    require_secret_for_open_links=false,\
+    require_secret_for_access=false,\
+    dismiss_update_notification=true,\
+    auto_reload_from_file=true,\
+    show_file_system=true,\
+    disable_writing_notebook_files=false\
+)"' > /tmp/pluto/start_pluto.sh && \
     chmod +x /tmp/pluto/start_pluto.sh
 
 EXPOSE 8888
 
-# Set the entry point to run the startup script with strace for debugging
-ENTRYPOINT ["strace", "-f", "-e", "trace=file", "/tmp/pluto/start_pluto.sh"]
+# Switch to pluto user
+USER pluto
+
+# Set the entry point to run the startup script
+ENTRYPOINT ["/tmp/pluto/start_pluto.sh"]
